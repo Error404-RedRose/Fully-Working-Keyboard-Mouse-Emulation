@@ -12,6 +12,8 @@ MOUSEEVENTF_RIGHTDOWN = 0x0008
 MOUSEEVENTF_RIGHTUP = 0x0010
 MOUSEEVENTF_MIDDLEDOWN = 0x0020
 MOUSEEVENTF_MIDDLEUP = 0x0040
+MOUSEEVENTF_WHEEL = 0x0800
+WHEEL_DELTA = 120  # Standard scroll amount
 
 # Low-level mouse functions (game compatible)
 def move_mouse_relative(dx, dy):
@@ -28,6 +30,11 @@ def right_click(down):
 def middle_click(down):
     flags = MOUSEEVENTF_MIDDLEDOWN if down else MOUSEEVENTF_MIDDLEUP
     ctypes.windll.user32.mouse_event(flags, 0, 0, 0, 0)
+
+def mouse_scroll(direction):
+    """Scroll mouse wheel. direction: 1 for up, -1 for down"""
+    amount = WHEEL_DELTA * direction
+    ctypes.windll.user32.mouse_event(MOUSEEVENTF_WHEEL, 0, 0, amount, 0)
 
 # Config
 CONFIG_FILE = "config.txt"
@@ -66,6 +73,10 @@ LEFT_CLICK_KEYS = {'left ctrl', 'left control', 'lctrl', 'ctrl'}
 MIDDLE_CLICK_KEYS = {'left windows', 'left win', 'lwin', 'win'}
 RIGHT_CLICK_KEYS = {'left alt', 'left menu', 'lalt', 'alt'}
 
+# Scroll keys
+SCROLL_UP_KEYS = {'page up', 'pageup', 'pg up'}
+SCROLL_DOWN_KEYS = {'page down', 'pagedown', 'pg down'}
+
 # Mouse button states
 left_pressed = False
 middle_pressed = False
@@ -90,7 +101,7 @@ running = True
 
 # Keys to suppress in mouse mode
 MOVEMENT_KEYS = {MOVE_UP, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT}
-SUPPRESSED_KEYS = MOVEMENT_KEYS | LEFT_CLICK_KEYS | MIDDLE_CLICK_KEYS | RIGHT_CLICK_KEYS
+SUPPRESSED_KEYS = MOVEMENT_KEYS | LEFT_CLICK_KEYS | MIDDLE_CLICK_KEYS | RIGHT_CLICK_KEYS | SCROLL_UP_KEYS | SCROLL_DOWN_KEYS
 
 def mouse_mover():
     """Thread for smooth mouse movement using low-level Win32 API"""
@@ -182,6 +193,12 @@ def handle_key_event(event):
         elif not is_down and right_pressed:
             right_click(False)
             right_pressed = False
+    elif key in SCROLL_UP_KEYS:
+        if is_down:
+            mouse_scroll(1)  # Scroll up
+    elif key in SCROLL_DOWN_KEYS:
+        if is_down:
+            mouse_scroll(-1)  # Scroll down
     
     return False  # Suppress the key in mouse mode
 
@@ -211,6 +228,8 @@ print("  Arrow Keys   : Move Mouse")
 print("  Left Ctrl    : Left Click")
 print("  Start/Win    : Middle Click")
 print("  Left Alt     : Right Click")
+print("  Page Up      : Scroll Up")
+print("  Page Down    : Scroll Down")
 print("INPUT MODE: All keys work normally")
 print("Close window to exit.")
 print("--------------------------")
