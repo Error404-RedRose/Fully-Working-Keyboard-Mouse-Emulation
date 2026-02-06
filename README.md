@@ -1,4 +1,4 @@
-# Open Start.bat to run the py script.
+## Open Start.bat to run the py script.
 
 Right Shift - Disables Bindings (Releases Modded Expressions & Arrow Key Mouse Control)
 
