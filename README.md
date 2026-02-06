@@ -11,3 +11,7 @@ Left Alt - Right Mouse Button
 Arrow Keys - Moves Mouse Around
 
 Config - Sets Speed Sensitivity
+
+PgUP - Scrolls Mouse Up (Not PageUp)
+
+PgDN - Scrolls Mouse Down (Not PageDown)
