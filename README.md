@@ -15,3 +15,7 @@ Config - Sets Speed Sensitivity
 PgUP - Scrolls Mouse Up (Not PageUp)
 
 PgDN - Scrolls Mouse Down (Not PageDown)
+
+
+
+Star this repository if you like it! More clickly clicky less breaking your wrist!
