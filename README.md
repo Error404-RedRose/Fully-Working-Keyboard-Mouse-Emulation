@@ -19,4 +19,4 @@ PgDN - Scrolls Mouse Down (Not PageDown)
 
 
 
-## Star this repository if you like it! More clickly clicky less breaking your wrist!
+## Star this repository if you like it! More clicky clicky less breaking your wrist!
